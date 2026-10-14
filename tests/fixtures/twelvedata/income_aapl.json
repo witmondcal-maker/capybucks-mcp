@@ -1,0 +1,16 @@
+{
+  "symbol": "AAPL",
+  "income_statement": [
+    {
+      "fiscal_date": "2023-09-30",
+      "revenue": "383285000000",
+      "net_income": "96995000000"
+    },
+    {
+      "fiscal_date": "2022-09-30",
+      "revenue": "394328000000",
+      "net_income": "99803000000"
+    }
+  ],
+  "status": "ok"
+}

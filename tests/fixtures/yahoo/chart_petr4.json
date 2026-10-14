@@ -1,0 +1,28 @@
+{
+  "chart": {
+    "result": [
+      {
+        "meta": {
+          "currency": "BRL",
+          "symbol": "PETR4.SA",
+          "exchangeTimezoneName": "America/Sao_Paulo",
+          "instrumentType": "EQUITY"
+        },
+        "timestamp": [1704499200, 1704585600, 1704672000],
+        "indicators": {
+          "quote": [
+            {
+              "open": [38.0, 38.2, 38.5],
+              "high": [38.4, 38.6, 38.9],
+              "low": [37.8, 38.0, 38.2],
+              "close": [38.1, 38.4, 38.7],
+              "volume": [1000, 1100, 1200]
+            }
+          ],
+          "adjclose": [{ "adjclose": [38.1, 38.4, 38.7] }]
+        }
+      }
+    ],
+    "error": null
+  }
+}

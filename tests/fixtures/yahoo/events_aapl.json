@@ -1,0 +1,38 @@
+{
+  "chart": {
+    "result": [
+      {
+        "meta": {
+          "currency": "USD",
+          "symbol": "AAPL",
+          "exchangeTimezoneName": "America/New_York"
+        },
+        "timestamp": [1691712000],
+        "events": {
+          "dividends": {
+            "1691712000": { "amount": 0.24, "date": 1691712000 }
+          },
+          "splits": {
+            "1598832000": {
+              "date": 1598832000,
+              "numerator": 4,
+              "denominator": 1
+            }
+          }
+        },
+        "indicators": {
+          "quote": [
+            {
+              "open": [180.0],
+              "high": [181.0],
+              "low": [179.0],
+              "close": [180.5],
+              "volume": [1000]
+            }
+          ]
+        }
+      }
+    ],
+    "error": null
+  }
+}

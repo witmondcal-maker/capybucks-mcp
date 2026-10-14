@@ -1,0 +1,11 @@
+{
+  "news": [
+    {
+      "title": "Apple reports earnings",
+      "publisher": "Example Wire",
+      "link": "https://example.com/aapl",
+      "providerPublishTime": 1704672000
+    }
+  ],
+  "quotes": []
+}

@@ -1,0 +1,19 @@
+name: compat
+
+on:
+  schedule:
+    - cron: "0 10 * * 1"
+  workflow_dispatch:
+
+jobs:
+  latest-capybucks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Sync
+        run: uv sync --all-groups
+      - name: Upgrade capybucks within the supported range
+        run: uv pip install --upgrade 'capybucks[calendars]>=0.0.1,<0.1'
+      - name: Contract and parity
+        run: uv run pytest tests/contract tests/tools/test_tools.py tests/unit
