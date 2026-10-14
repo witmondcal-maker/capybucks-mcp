@@ -1,0 +1,84 @@
+[project]
+name = "capybucks-mcp"
+version = "0.1.0"
+description = "Read-only MCP server for capybucks market data. Not investment advice."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+authors = [
+    { name = "Ricardo Margalho", email = "ricardo@penarede.com.br" },
+]
+keywords = ["mcp", "finance", "market-data", "ohlcv", "capybucks"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business :: Financial :: Investment",
+]
+dependencies = [
+    "capybucks[calendars]>=0.0.1,<0.1",
+    "mcp>=2.3,<3",
+]
+
+[project.urls]
+Homepage = "https://github.com/witmondcal-maker/capybucks-mcp"
+Documentation = "https://github.com/witmondcal-maker/capybucks-mcp/blob/main/docs/tools.md"
+Repository = "https://github.com/witmondcal-maker/capybucks-mcp"
+Issues = "https://github.com/witmondcal-maker/capybucks-mcp/issues"
+Capybucks = "https://github.com/witmondcal-maker/capybucks"
+
+[project.scripts]
+capybucks-mcp = "capybucks_mcp.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.13",
+    "pandas-stubs>=2.2",
+    "pip-audit>=2.7",
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "respx>=0.21",
+    "ruff>=0.8",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/capybucks_mcp"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["B018"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+packages = ["capybucks_mcp"]
+mypy_path = "src"
+
+[[tool.mypy.overrides]]
+module = ["exchange_calendars.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = [
+    "live: hits real provider APIs; excluded from default CI",
+]
+addopts = "-m \"not live\""

@@ -1,0 +1,42 @@
+{
+  "optionChain": {
+    "result": [
+      {
+        "underlyingSymbol": "AAPL",
+        "expirationDates": [1705622400, 1708041600],
+        "options": [
+          {
+            "expirationDate": 1705622400,
+            "calls": [
+              {
+                "contractSymbol": "AAPL240119C00100000",
+                "strike": 100.0,
+                "lastPrice": 85.0,
+                "bid": 84.5,
+                "ask": 85.5,
+                "volume": 10,
+                "openInterest": 200,
+                "impliedVolatility": 0.42,
+                "inTheMoney": true
+              }
+            ],
+            "puts": [
+              {
+                "contractSymbol": "AAPL240119P00100000",
+                "strike": 100.0,
+                "lastPrice": 0.05,
+                "bid": 0.04,
+                "ask": 0.06,
+                "volume": 50,
+                "openInterest": 300,
+                "impliedVolatility": 0.38,
+                "inTheMoney": false
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "error": null
+  }
+}

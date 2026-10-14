@@ -1,0 +1,24 @@
+{
+  "quoteSummary": {
+    "result": [
+      {
+        "incomeStatementHistory": {
+          "incomeStatementHistory": [
+            {
+              "endDate": { "raw": 1696032000, "fmt": "2023-09-30" },
+              "totalRevenue": { "raw": 383285000000, "fmt": "383.29B" },
+              "netIncome": { "raw": 96995000000, "fmt": "97B" }
+            },
+            {
+              "endDate": { "raw": 1664496000, "fmt": "2022-09-30" },
+              "totalRevenue": { "raw": 394328000000, "fmt": "394.33B" },
+              "netIncome": { "raw": 99803000000, "fmt": "99.8B" }
+            }
+          ],
+          "maxAge": 86400
+        }
+      }
+    ],
+    "error": null
+  }
+}
