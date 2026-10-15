@@ -16,8 +16,11 @@ from capybucks.core.registry import get_registry
 
 from capybucks_mcp.errors import CallContextError
 from capybucks_mcp.guard import get_guard
+from capybucks_mcp.path_quote import install_quoted_path_templates
 
 T = TypeVar("T")
+
+install_quoted_path_templates()
 
 
 def install_test_memory() -> None:

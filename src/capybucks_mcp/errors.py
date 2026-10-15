@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import logging
 import uuid
 from typing import cast
@@ -19,6 +20,7 @@ from capybucks.exceptions import (
     SymbolNotFound,
 )
 
+from capybucks_mcp.catalog import CATALOG
 from capybucks_mcp.envelope import YAHOO_WARNING, failure
 from capybucks_mcp.guard import CooldownActive
 from capybucks_mcp.scrub import scrub
@@ -64,6 +66,25 @@ def _provider_of(exc: BaseException, fallback: str | None) -> str | None:
 
 def _clean(text: str) -> str:
     return scrub(text)
+
+
+def _api_key_env(provider: str) -> str | None:
+    for spec in CATALOG:
+        if spec.name == provider and spec.requires_key:
+            return f"CAPYBUCKS_{provider.upper()}_KEY"
+    return None
+
+
+def _keyless_denied(provider: str) -> str:
+    if provider == "yahoo":
+        return (
+            "Yahoo denied access. Yahoo Finance is not an official API. "
+            "Try again later."
+        )
+    return (
+        f"{provider} denied access. This provider does not use an API key. "
+        "Try again later."
+    )
 
 
 def describe_error(
@@ -114,7 +135,17 @@ def describe_error(
         }
 
     if isinstance(inner, MissingAPIKey):
-        env_var = f"CAPYBUCKS_{inner.provider.upper()}_KEY"
+        env_var = _api_key_env(inner.provider)
+        if env_var is None:
+            message = _keyless_denied(inner.provider)
+            return {
+                "code": "provider_error",
+                "type": "ProviderError",
+                "message": message,
+                "retryable": False,
+                "details": {"provider": inner.provider, "message": message},
+                "next_step": "Try again later. Do not switch providers on your own.",
+            }
         return {
             "code": "missing_api_key",
             "type": "MissingAPIKey",
@@ -167,8 +198,8 @@ def describe_error(
                 "interval": inner.interval,
             },
             "next_step": (
-                "For FX, pass provider=twelvedata and configure "
-                "CAPYBUCKS_TWELVEDATA_KEY. Do not invent a fallback provider."
+                "No provider is registered for this asset and interval. "
+                "Do not invent a fallback provider."
             ),
         }
 
@@ -229,6 +260,20 @@ def describe_error(
             "next_step": (
                 "This provider does not implement the dataset. "
                 "Pass another provider explicitly, or accept the gap."
+            ),
+        }
+
+    if isinstance(inner, json.JSONDecodeError):
+        message = _clean(str(inner)) or "provider returned invalid JSON"
+        return {
+            "code": "provider_error",
+            "type": "ProviderError",
+            "message": message,
+            "retryable": False,
+            "details": {"provider": provider, "message": message},
+            "next_step": (
+                "The provider returned a response that was not JSON. "
+                "Retry later. Do not switch providers on your own."
             ),
         }
 

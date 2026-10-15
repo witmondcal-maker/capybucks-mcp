@@ -49,6 +49,12 @@ dev = [
     "ruff>=0.8",
 ]
 
+[tool.hatch.build]
+exclude = [
+  "/tests/fixtures",
+  "/tests/fixtures/**",
+]
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/capybucks_mcp"]
 

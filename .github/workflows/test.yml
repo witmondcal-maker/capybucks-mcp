@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
       - name: Sync (locked)
-        run: uv sync --all-groups
+        run: uv sync --locked --all-groups
       - name: Ruff check
         run: uv run ruff check .
       - name: Ruff format
