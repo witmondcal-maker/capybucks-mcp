@@ -20,7 +20,7 @@ from capybucks_mcp.config import (
     clamp_rows,
 )
 
-_SYMBOL = re.compile(r"^[A-Z0-9./^=-]{1,32}$")
+_SYMBOL = re.compile(r"^[A-Z0-9.\-^=]{1,32}$")
 
 INDICATORS = frozenset({"sma", "ema", "rsi", "macd", "bollinger", "atr", "vwap"})
 
@@ -38,9 +38,9 @@ def parse_symbols(symbols: str | list[str]) -> list[str]:
         token = part.strip().upper()
         if not token:
             continue
-        if _SYMBOL.fullmatch(token) is None:
+        if ".." in token or _SYMBOL.fullmatch(token) is None:
             raise ValueError(
-                f"invalid symbol {token!r}; use letters, digits, and . - / ^ = only"
+                f"invalid symbol {token!r}; use letters, digits, and . - ^ = only"
             )
         parsed.append(token)
     if not parsed:

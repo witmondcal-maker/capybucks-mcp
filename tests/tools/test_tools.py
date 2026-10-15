@@ -248,7 +248,7 @@ async def test_unsupported_statement_and_fx() -> None:
     payload = await get_financials("AAPL", provider="coingecko")
     assert _error(payload)["code"] == "unsupported_capability"
     fx = await get_history("EUR/USD")
-    assert _error(fx)["code"] == "no_provider"
+    assert _error(fx)["code"] == "invalid_argument"
 
 
 class _LeakProvider(Provider):

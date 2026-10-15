@@ -4,7 +4,7 @@
 
 O servidor é somente leitura. Nenhuma ferramenta grava em serviço externo, não há ordem, conta, login de corretora nem dado pessoal. A única escrita local é o cache parquet da biblioteca em `~/.cache/capybucks` ou em `CAPYBUCKS_CACHE_DIR`.
 
-Não há shell, leitura de arquivo arbitrário nem fetch de URL arbitrária. Símbolos passam por `^[A-Z0-9./^=-]{1,32}$` depois de virarem maiúsculas. Datas e enums são validados antes da biblioteca.
+Não há shell, leitura de arquivo arbitrário nem fetch de URL arbitrária. Símbolos, depois de virarem maiúsculas, só aceitam letras, dígitos, `.`, `-`, `^` e `=`, com no máximo 32 caracteres. Barra, barra invertida, `..`, `?`, `#`, espaço e caractere de controle são recusados. O símbolo entra no caminho da URL com `urllib.parse.quote` (`safe=''`). Datas e enums são validados antes da biblioteca.
 
 Não há telemetria.
 
@@ -21,7 +21,7 @@ Um teste offline com `respx` falha se a suíte passar a chamar outro host.
 
 ## Segredos
 
-A chave da Twelve Data entra por `CAPYBUCKS_TWELVEDATA_KEY` ou por `~/.capybucks.toml`. A Twelve Data coloca a chave na query (`apikey=`). Erros de transporte podem citar a URL. `scrub.py` redige `apikey=`, `api_key=` e valores de `CAPYBUCKS_*_KEY` (e outros `CAPYBUCKS_*` com 8 caracteres ou mais) no JSON e no stderr. O stderr é embrulhado antes de o `MCPServer` existir, para um handler de log não furar o filtro.
+A chave da Twelve Data entra por `CAPYBUCKS_TWELVEDATA_KEY` ou por `~/.capybucks.toml` (seção `keys`). A Twelve Data coloca a chave na query (`apikey=`). Erros de transporte podem citar a URL. `scrub.py` redige `apikey=`, `api_key=` e o valor de cada chave carregada, venha do ambiente ou do toml. No ambiente, entram `CAPYBUCKS_*_KEY` e os outros `CAPYBUCKS_*` com 8 caracteres ou mais. O stderr é embrulhado antes de o `MCPServer` existir, para um handler de log não furar o filtro.
 
 `list_providers` devolve `key_configured` como booleano, ou `null` se a função interna da biblioteca sumir. Nunca devolve a chave.
 

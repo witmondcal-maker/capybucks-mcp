@@ -130,11 +130,12 @@ Usa `capybucks.ta` sobre o histórico. Não usa `enrich`. Janelas de 2 a 400. `m
 | Exceção | `code` | `retryable` | Próximo passo |
 |---|---|---|---|
 | `SymbolNotFound` | `symbol_not_found` | não | Se houver `hint`, repetir com ele. Senão, pedir outro símbolo |
-| `MissingAPIKey` | `missing_api_key` | não | Configurar `CAPYBUCKS_<PROVIDER>_KEY` ou `~/.capybucks.toml`. Não pedir a chave no chat |
-| `RateLimitError` e cooldown | `rate_limited` | sim | Esperar `retry_after_seconds`. Não trocar de provedor. HTTP 403 da Yahoo cai aqui |
-| `ProviderError` | `provider_error` | se a mensagem citar HTTP 5, bot-check ou timeout | Ler a mensagem. HTTP 404 permanece neste código |
+| `MissingAPIKey` de provedor com chave (hoje só a Twelve Data, `CAPYBUCKS_TWELVEDATA_KEY`) | `missing_api_key` | não | Configurar essa variável ou `~/.capybucks.toml`. Não pedir a chave no chat |
+| `MissingAPIKey` da Yahoo, do Stooq ou do CoinGecko (HTTP 401) | `provider_error` | não | Acesso negado. A Yahoo não é API oficial e não usa chave. Tentar de novo mais tarde |
+| `RateLimitError` e cooldown | `rate_limited` | sim | Esperar `retry_after_seconds`. Não trocar de provedor. HTTP 403 cai aqui e a biblioteca tenta de novo até 3 vezes |
+| `ProviderError`, inclusive JSON inválido com HTTP 200 | `provider_error` | se a mensagem citar HTTP 5, bot-check ou timeout | Ler a mensagem. HTTP 404 permanece neste código |
 | `ProviderNotFound` | `unknown_provider` | não | Usar um nome da lista |
-| `NoProviderError` | `no_provider` | não | FX pede `provider=twelvedata` e a chave |
+| `NoProviderError` | `no_provider` | não | Não há provedor para o ativo e o intervalo. Símbolo com `/` nem chega aqui: a validação devolve `invalid_argument` |
 | `MultiDownloadError` / falha total do lote | `all_symbols_failed` | não | Ler o mapa por símbolo |
 | `StreamingNotSupportedError` | `streaming_unsupported` | não | Não há ferramenta de stream |
 | `NotImplementedError` | `unsupported_capability` | não | Outro provedor, explícito, ou aceitar a lacuna |
